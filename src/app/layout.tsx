@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Outfit, Space_Grotesk } from "next/font/google";
 import { Providers } from "@/components/Providers";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import "./globals.css";
 
 // Konfigurasi font Outfit untuk body text
@@ -34,15 +36,10 @@ export default function RootLayout({
       >
         <Providers>
           <div className="relative min-h-screen flex flex-col">
-            {/* Jika kamu sudah memindahkan Navbar.tsx, 
-               kamu bisa pasang di sini agar muncul di semua halaman:
-               <Navbar /> 
-            */}
-            <main className="flex-grow">
-              {children}
-            </main>
-            {/* <Footer /> 
-            */}
+            <Navbar />
+
+            <main className="flex-grow">{children}</main>
+            <Footer />
           </div>
         </Providers>
       </body>

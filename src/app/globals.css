@@ -43,19 +43,25 @@
     --aurora-lavender: 270 50% 75%;
 
     /* Gradients */
-    --gradient-aurora: linear-gradient(135deg, 
-      hsl(330, 81%, 60%) 0%, 
-      hsl(340, 82%, 65%) 25%, 
-      hsl(280, 60%, 65%) 50%, 
-      hsl(330, 81%, 60%) 100%);
+    --gradient-aurora: linear-gradient(
+      135deg,
+      hsl(330, 81%, 60%) 0%,
+      hsl(340, 82%, 65%) 25%,
+      hsl(280, 60%, 65%) 50%,
+      hsl(330, 81%, 60%) 100%
+    );
 
-    --gradient-text: linear-gradient(135deg, 
-      hsl(330, 81%, 50%) 0%, 
-      hsl(280, 60%, 55%) 100%);
+    --gradient-text: linear-gradient(
+      135deg,
+      hsl(330, 81%, 50%) 0%,
+      hsl(280, 60%, 55%) 100%
+    );
 
-    --gradient-card: linear-gradient(145deg, 
-      hsl(0, 0%, 100%) 0%, 
-      hsl(330, 50%, 98%) 100%);
+    --gradient-card: linear-gradient(
+      145deg,
+      hsl(0, 0%, 100%) 0%,
+      hsl(330, 50%, 98%) 100%
+    );
 
     /* Shadows */
     --shadow-aurora: 0 10px 40px -10px hsl(330 81% 60% / 0.3);
@@ -99,19 +105,25 @@
     --aurora-lavender: 270 50% 80%;
 
     /* Gradients dark */
-    --gradient-aurora: linear-gradient(135deg, 
-      hsl(330, 81%, 65%) 0%, 
-      hsl(340, 82%, 70%) 25%, 
-      hsl(280, 60%, 70%) 50%, 
-      hsl(330, 81%, 65%) 100%);
+    --gradient-aurora: linear-gradient(
+      135deg,
+      hsl(330, 81%, 65%) 0%,
+      hsl(340, 82%, 70%) 25%,
+      hsl(280, 60%, 70%) 50%,
+      hsl(330, 81%, 65%) 100%
+    );
 
-    --gradient-text: linear-gradient(135deg, 
-      hsl(330, 81%, 70%) 0%, 
-      hsl(280, 60%, 75%) 100%);
+    --gradient-text: linear-gradient(
+      135deg,
+      hsl(330, 81%, 70%) 0%,
+      hsl(280, 60%, 75%) 100%
+    );
 
-    --gradient-card: linear-gradient(145deg, 
-      hsl(260, 20%, 10%) 0%, 
-      hsl(260, 25%, 12%) 100%);
+    --gradient-card: linear-gradient(
+      145deg,
+      hsl(260, 20%, 10%) 0%,
+      hsl(260, 25%, 12%) 100%
+    );
 
     /* Shadows dark */
     --shadow-aurora: 0 10px 40px -10px hsl(330 81% 65% / 0.4);
@@ -133,13 +145,21 @@
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-outfit), sans-serif; /* Ganti ini */
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-space-grotesk), sans-serif; /* Ganti ini */
   }
 }
 
 @layer components {
+  .container {
+    @apply mx-auto;
+  }
   .text-gradient {
     @apply bg-clip-text text-transparent;
     background-image: var(--gradient-text);
@@ -168,7 +188,7 @@
   }
 
   .aurora-border::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 2px;
     background: hsl(var(--background));
@@ -177,18 +197,33 @@
 }
 
 @keyframes aurora {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 @keyframes pulse-slow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 @theme inline {
@@ -227,4 +262,50 @@
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+}
+
+/* Pastikan ini ada agar background Hero hidup */
+@keyframes mesh-move {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg);
+  }
+  33% {
+    transform: translate(30%, -20%) rotate(120deg);
+  }
+  66% {
+    transform: translate(-20%, 30%) rotate(240deg);
+  }
+  100% {
+    transform: translate(0%, 0%) rotate(360deg);
+  }
+}
+
+.mesh-gradient {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.6;
+  animation: mesh-move 20s ease-in-out infinite;
+}
+
+.mesh-gradient-1 {
+  background: hsl(var(--aurora-pink) / 0.5);
+  top: -20%;
+  left: -10%;
+}
+
+.mesh-gradient-2 {
+  background: hsl(var(--aurora-violet) / 0.4);
+  top: 20%;
+  right: -15%;
+  animation-delay: -7s;
+}
+
+.mesh-gradient-3 {
+  background: hsl(var(--aurora-rose) / 0.4);
+  bottom: -10%;
+  left: 30%;
+  animation-delay: -14s;
 }
