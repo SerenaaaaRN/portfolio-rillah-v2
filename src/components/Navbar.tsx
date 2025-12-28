@@ -33,6 +33,7 @@ export const Navbar = () => {
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
   ) => {
+    // Jika href adalah anchor link (dimulai dengan #)
     if (href.startsWith("#")) {
       e.preventDefault();
       const element = document.querySelector(href);

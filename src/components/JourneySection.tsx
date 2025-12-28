@@ -24,20 +24,13 @@ const educationItems = [
 
 const experienceItems = [
   {
-    year: "2024",
-    title: "Frontend Developer Intern",
-    organization: "Tech Company",
-    location: "Remote",
-    description: "Developed and maintained web applications using React and Next.js. Collaborated with design team to implement responsive UI components.",
-    tags: ["React", "Next.js", "Tailwind CSS"],
-  },
-  {
-    year: "2023",
-    title: "Freelance Web Developer",
-    organization: "Self-employed",
-    location: "Palembang, Indonesia",
-    description: "Built custom websites and web applications for local businesses. Focused on creating user-friendly and responsive designs.",
-    tags: ["WordPress", "JavaScript", "CSS"],
+    year: "2025",
+    title: "Volunteer Software Engineer",
+    organization: "HMIF",
+    location: "Universitas Sriwijaya",
+    description:
+      "Berkontribusi dalam menyempurnakan desain antarmuka (UI) di Figma, khususnya dalam integrasi aset visual dan penambahan komponen fitur pada prototipe aplikasi.",
+    tags: ["Figma"],
   },
 ];
 
