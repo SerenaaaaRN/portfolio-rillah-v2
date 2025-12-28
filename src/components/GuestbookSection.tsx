@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { createClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase";
 
 interface GuestbookMessage {
   id: number | string;
@@ -17,7 +17,6 @@ interface GuestbookMessage {
 }
 
 export const GuestbookSection = () => {
-  const supabase = createClient();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { toast } = useToast();
@@ -210,7 +209,7 @@ export const GuestbookSection = () => {
               </span>
             </h3>
 
-            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="space-y-3 max-h-125 overflow-y-auto pr-2 custom-scrollbar">
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
                   <Loader2 className="h-8 w-8 animate-spin mb-4" />
@@ -230,7 +229,7 @@ export const GuestbookSection = () => {
                     className="p-4 rounded-xl bg-card border border-border hover:border-primary/30 transition-colors"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary to-accent flex items-center justify-center shrink-0">
                         <User className="h-4 w-4 text-primary-foreground" />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -242,7 +241,7 @@ export const GuestbookSection = () => {
                             {formatDate(msg.created_at)}
                           </span>
                         </div>
-                        <p className="text-sm text-muted-foreground break-words">
+                        <p className="text-sm text-muted-foreground wrap-break-word">
                           {msg.message}
                         </p>
                       </div>
