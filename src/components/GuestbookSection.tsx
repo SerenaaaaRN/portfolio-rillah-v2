@@ -34,7 +34,7 @@ export const GuestbookSection = () => {
     const fetchMessages = async () => {
       setIsLoading(true);
       const { data, error } = await supabase
-        .from("guestbook")
+        .from("reviews")
         .select("*")
         .order("created_at", { ascending: false });
 
@@ -49,7 +49,7 @@ export const GuestbookSection = () => {
     fetchMessages();
   }, []);
 
-  // 2. Handler untuk submit pesan ke Supabase
+  // handler untuk submit pesan ke Supabase
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -65,14 +65,15 @@ export const GuestbookSection = () => {
     setIsSubmitting(true);
 
     const { data, error } = await supabase
-      .from("guestbook")
+      .from("reviews")
       .insert([
         {
           name: name.trim(),
           message: message.trim(),
         },
       ])
-      .select();
+      .select("*")
+      .order("created_at", { ascending: false });
 
     if (error) {
       toast({
@@ -82,7 +83,6 @@ export const GuestbookSection = () => {
       });
       console.error("Supabase Error:", error);
     } else {
-      // Update state lokal dengan data yang baru saja masuk
       if (data) {
         setMessages([data[0], ...messages]);
       }
