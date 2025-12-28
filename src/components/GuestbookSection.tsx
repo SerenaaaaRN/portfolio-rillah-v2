@@ -1,33 +1,20 @@
 "use client";
+
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Send, MessageSquare, User, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabase"; // Import client yang kita buat di atas
 
-// Placeholder messages for demo (will be replaced with Supabase data later)
-const demoMessages = [
-  {
-    id: 1,
-    name: "Alice",
-    message: "Amazing portfolio! Love the design and animations 🎨",
-    created_at: "2024-01-15T10:30:00Z",
-  },
-  {
-    id: 2,
-    name: "Bob",
-    message: "Great work! The tech stack section is really cool.",
-    created_at: "2024-01-14T15:45:00Z",
-  },
-  {
-    id: 3,
-    name: "Charlie",
-    message: "Inspiring portfolio. Keep up the great work! 🚀",
-    created_at: "2024-01-13T09:20:00Z",
-  },
-];
+interface GuestbookMessage {
+  id: number | string;
+  name: string;
+  message: string;
+  created_at: string;
+}
 
 export const GuestbookSection = () => {
   const ref = useRef(null);
@@ -37,8 +24,30 @@ export const GuestbookSection = () => {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [messages, setMessages] = useState(demoMessages);
+  const [messages, setMessages] = useState<GuestbookMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // 1. Fetch data dari Supabase saat komponen mount
+  useEffect(() => {
+    const fetchMessages = async () => {
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from("guestbook")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching messages:", error);
+      } else {
+        setMessages(data || []);
+      }
+      setIsLoading(false);
+    };
+
+    fetchMessages();
+  }, []);
+
+  // 2. Handler untuk submit pesan ke Supabase
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -53,25 +62,37 @@ export const GuestbookSection = () => {
 
     setIsSubmitting(true);
 
-    // Simulate API call (will be replaced with Supabase later)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const { data, error } = await supabase
+      .from("guestbook")
+      .insert([
+        {
+          name: name.trim(),
+          message: message.trim(),
+        },
+      ])
+      .select();
 
-    const newMessage = {
-      id: Date.now(),
-      name: name.trim(),
-      message: message.trim(),
-      created_at: new Date().toISOString(),
-    };
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+      console.error("Supabase Error:", error);
+    } else {
+      // Update state lokal dengan data yang baru saja masuk
+      if (data) {
+        setMessages([data[0], ...messages]);
+      }
+      setName("");
+      setMessage("");
+      toast({
+        title: "Message sent! 🎉",
+        description: "Thanks for leaving a message!",
+      });
+    }
 
-    setMessages([newMessage, ...messages]);
-    setName("");
-    setMessage("");
     setIsSubmitting(false);
-
-    toast({
-      title: "Message sent! 🎉",
-      description: "Thanks for leaving a message!",
-    });
   };
 
   const formatDate = (dateString: string) => {
@@ -174,7 +195,7 @@ export const GuestbookSection = () => {
             </form>
           </motion.div>
 
-          {/* Messages */}
+          {/* Messages List */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -188,35 +209,46 @@ export const GuestbookSection = () => {
               </span>
             </h3>
 
-            <div className="space-y-3 max-h-100 overflow-y-auto pr-2">
-              {messages.map((msg, index) => (
-                <motion.div
-                  key={msg.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className="p-4 rounded-xl bg-card border border-border hover:border-primary/30 transition-colors"
-                >
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary to-accent flex items-center justify-center shrink-0">
-                      <User className="h-4 w-4 text-primary-foreground" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2 mb-1">
-                        <span className="font-medium text-sm truncate">
-                          {msg.name}
-                        </span>
-                        <span className="text-xs text-muted-foreground shrink-0">
-                          {formatDate(msg.created_at)}
-                        </span>
+            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+                  <Loader2 className="h-8 w-8 animate-spin mb-4" />
+                  <p>Loading messages...</p>
+                </div>
+              ) : messages.length === 0 ? (
+                <p className="text-center py-12 text-muted-foreground">
+                  No messages yet. Be the first!
+                </p>
+              ) : (
+                messages.map((msg, index) => (
+                  <motion.div
+                    key={msg.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    className="p-4 rounded-xl bg-card border border-border hover:border-primary/30 transition-colors"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0">
+                        <User className="h-4 w-4 text-primary-foreground" />
                       </div>
-                      <p className="text-sm text-muted-foreground">
-                        {msg.message}
-                      </p>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <span className="font-medium text-sm truncate">
+                            {msg.name}
+                          </span>
+                          <span className="text-xs text-muted-foreground shrink-0">
+                            {formatDate(msg.created_at)}
+                          </span>
+                        </div>
+                        <p className="text-sm text-muted-foreground break-words">
+                          {msg.message}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))
+              )}
             </div>
           </motion.div>
         </div>

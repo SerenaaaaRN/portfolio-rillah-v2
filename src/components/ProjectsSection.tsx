@@ -87,7 +87,7 @@ export const ProjectsSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-primary font-medium">What I've built</span>
+          <span className="text-primary font-medium">What I&apos;ve built</span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-2">
             Featured <span className="text-gradient">Projects</span>
           </h2>
@@ -110,7 +110,7 @@ export const ProjectsSection = () => {
             >
               <div className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 flex flex-col">
                 {/* Project Icon/Image */}
-                <div className="relative h-40 rounded-xl bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 flex items-center justify-center mb-6 overflow-hidden group-hover:from-primary/20 group-hover:via-accent/20 group-hover:to-primary/10 transition-all duration-300">
+                <div className="relative h-40 rounded-xl bg-linear-to-br from-primary/10 via-accent/10 to-primary/5 flex items-center justify-center mb-6 overflow-hidden group-hover:from-primary/20 group-hover:via-accent/20 group-hover:to-primary/10 transition-all duration-300">
                   <span className="text-6xl group-hover:scale-110 transition-transform duration-300">
                     {project.image}
                   </span>
@@ -131,7 +131,7 @@ export const ProjectsSection = () => {
                     <h3 className="text-xl font-display font-semibold group-hover:text-primary transition-colors">
                       {project.title}
                     </h3>
-                    <Folder className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                    <Folder className="h-5 w-5 text-muted-foreground shrink-0" />
                   </div>
 
                   <p className="text-muted-foreground text-sm mb-4 flex-1">
