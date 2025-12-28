@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { createClient } from "@/utils/supabase/client";
 
+const supabase = createClient();
+
 interface GuestbookMessage {
   id: number | string;
   name: string;
@@ -17,7 +19,6 @@ interface GuestbookMessage {
 }
 
 export const GuestbookSection = () => {
-  const supabase = createClient();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { toast } = useToast();
@@ -46,7 +47,7 @@ export const GuestbookSection = () => {
     };
 
     fetchMessages();
-  }, [supabase]);
+  }, []);
 
   // 2. Handler untuk submit pesan ke Supabase
   const handleSubmit = async (e: React.FormEvent) => {
