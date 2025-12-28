@@ -64,7 +64,7 @@ export const Navbar = () => {
               className="text-2xl font-display font-bold text-gradient cursor-pointer"
               onClick={(e) => handleNavClick(e, "/")}
             >
-              Portfolio
+              Rillah
             </NavLink>
 
             {/* Desktop Navigation */}

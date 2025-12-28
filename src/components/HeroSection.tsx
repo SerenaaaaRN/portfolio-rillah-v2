@@ -1,14 +1,21 @@
 "use client";
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail, Instagram, MapPin } from "lucide-react";
+import {
+  ArrowDown,
+  Github,
+  Linkedin,
+  Mail,
+  Instagram,
+  MapPin,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const photoGrid = [
-  { id: 1, height: "h-48 sm:h-64", delay: 0.2 },
-  { id: 2, height: "h-32 sm:h-40", delay: 0.3 },
-  { id: 3, height: "h-36 sm:h-48", delay: 0.4 },
-  { id: 4, height: "h-40 sm:h-52", delay: 0.5 },
-  { id: 5, height: "h-48 sm:h-60", delay: 0.6 },
+  { id: 1, height: "h-40 md:h-64", delay: 0.2, icon: "📸" },
+  { id: 2, height: "h-28 md:h-40", delay: 0.3, icon: "🏆" },
+  { id: 3, height: "h-32 md:h-48", delay: 0.4, icon: "🎓" },
+  { id: 4, height: "h-36 md:h-52", delay: 0.5, icon: "🎉" },
+  { id: 5, height: "h-40 md:h-60", delay: 0.6, icon: "🏛️" },
 ];
 
 export const HeroSection = () => {
@@ -19,73 +26,59 @@ export const HeroSection = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-dvh items-center justify-center overflow-hidden py-10 md:py-20"
     >
       {/* Animated Aurora Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="mesh-gradient mesh-gradient-1" />
-        <div className="mesh-gradient mesh-gradient-2" />
-        <div className="mesh-gradient mesh-gradient-3" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="mesh-gradient mesh-gradient-1 opacity-50 md:opacity-100" />
+        <div className="mesh-gradient mesh-gradient-2 opacity-50 md:opacity-100" />
+        <div className="mesh-gradient mesh-gradient-3 opacity-50 md:opacity-100" />
       </div>
 
       {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-size-[60px_60px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-size-[40px_40px] md:bg-size-[60px_60px] pointer-events-none" />
 
       {/* Content */}
-      <div className="container relative z-10 px-6 pt-20">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
+      <div className="container relative z-10 px-4 md:px-6">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16">
           {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex-1 text-center lg:text-left"
+            className="flex-1 text-center lg:text-left order-2 lg:order-1"
           >
             {/* Location Badge */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-2 mb-4"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full bg-secondary/50 border border-border backdrop-blur-sm"
             >
-              <MapPin className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Bandung, Indonesia</span>
-              <span className="text-primary font-medium text-sm">• Available</span>
+              <MapPin className="h-3.5 w-3.5 text-primary" />
+              <span className="text-xs md:text-sm font-medium">
+                Palembang, Indonesia
+              </span>
+              <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold leading-tight mb-6"
-            >
-              <span className="text-primary">Informatics</span>
-              <br />
-              <span className="text-primary">Student</span>
+            <motion.h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-bold leading-[1.1] mb-6">
+              <span className="text-primary">Informatics Student</span>
               <br />
               <span className="text-foreground">& AI Engineer</span>
             </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-base sm:text-lg text-muted-foreground max-w-md mx-auto lg:mx-0 mb-8"
-            >
-              Passionate about software engineering, data science, and machine learning. 
-              Currently pursuing BS in Computer Science with a focus on building scalable 
-              applications and AI solutions.
+            <motion.p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-md mx-auto lg:mx-0 mb-8 leading-relaxed">
+              Passionate about software engineering, data science, and machine
+              learning. Focusing on building scalable applications and AI
+              solutions.
             </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-4"
-            >
+            {/* CTA Buttons */}
+            <motion.div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <Button
                 size="lg"
-                className="group bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
+                className="w-full sm:w-auto group bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 shadow-lg shadow-primary/20 transition-all duration-300"
                 onClick={() =>
                   document
                     .querySelector("#projects")
@@ -95,10 +88,11 @@ export const HeroSection = () => {
                 View My Work
                 <ArrowDown className="ml-2 h-4 w-4 -rotate-90 group-hover:translate-x-1 transition-transform" />
               </Button>
+
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full px-8 border-border hover:bg-secondary transition-all duration-300"
+                className="w-full sm:w-auto rounded-full px-8 backdrop-blur-sm hover:bg-secondary transition-all duration-300"
                 onClick={() =>
                   document
                     .querySelector("#guestbook")
@@ -111,116 +105,88 @@ export const HeroSection = () => {
             </motion.div>
 
             {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex items-center justify-center lg:justify-start gap-4 mt-10"
-            >
+            <div className="flex items-center justify-center lg:justify-start gap-2 mt-10">
               {[
-                { icon: Github, href: "https://github.com", label: "GitHub" },
-                { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-                { icon: Mail, href: "mailto:email@example.com", label: "Email" },
-                { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-              ].map((social) => (
+                { icon: Github, href: "#", label: "GitHub" },
+                { icon: Linkedin, href: "#", label: "LinkedIn" },
+                { icon: Mail, href: "#", label: "Email" },
+                { icon: Instagram, href: "#", label: "Instagram" },
+              ].map((social, i) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="p-2.5 rounded-lg bg-transparent hover:bg-muted text-muted-foreground hover:text-foreground transition-all duration-300"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 + i * 0.1 }}
+                  className="p-3 rounded-full bg-secondary/30 hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors border border-transparent hover:border-primary/20"
                 >
                   <social.icon className="h-5 w-5" />
                   <span className="sr-only">{social.label}</span>
                 </motion.a>
               ))}
-            </motion.div>
+            </div>
           </motion.div>
 
-          {/* Photo Grid - Bento Style */}
+          {/* Bento Photo Grid */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex-1 max-w-lg lg:max-w-xl"
+            className="flex-1 w-full max-w-[320px] sm:max-w-md lg:max-w-xl order-1 lg:order-2"
           >
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 gap-3 md:gap-4">
               {/* Column 1 */}
-              <div className="flex flex-col gap-3 sm:gap-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: photoGrid[0].delay }}
-                  className={`${photoGrid[0].height} rounded-2xl bg-linear-to-br from-primary/20 via-accent/20 to-primary/20 border border-border overflow-hidden`}
-                >
-                  <div className="w-full h-full flex items-center justify-center bg-muted/50">
-                    <span className="text-4xl">📸</span>
-                  </div>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: photoGrid[2].delay }}
-                  className={`${photoGrid[2].height} rounded-2xl bg-linear-to-br from-accent/20 via-primary/20 to-accent/20 border border-border overflow-hidden`}
-                >
-                  <div className="w-full h-full flex items-center justify-center bg-muted/50">
-                    <span className="text-4xl">🎓</span>
-                  </div>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: photoGrid[4].delay }}
-                  className={`${photoGrid[4].height} rounded-2xl bg-linear-to-br from-primary/30 via-accent/20 to-primary/20 border border-border overflow-hidden`}
-                >
-                  <div className="w-full h-full flex items-center justify-center bg-muted/50">
-                    <span className="text-4xl">🏛️</span>
-                  </div>
-                </motion.div>
+              <div className="flex flex-col gap-3 md:gap-4">
+                {[photoGrid[0], photoGrid[2], photoGrid[4]].map((item) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: item.delay }}
+                    className={`${item.height} rounded-2xl md:rounded-3xl bg-linear-to-br from-primary/10 via-secondary/50 to-accent/10 border border-border overflow-hidden flex items-center justify-center hover:border-primary/50 transition-colors group`}
+                  >
+                    <span className="text-3xl md:text-4xl group-hover:scale-110 transition-transform duration-300">
+                      {item.icon}
+                    </span>
+                  </motion.div>
+                ))}
               </div>
               {/* Column 2 */}
-              <div className="flex flex-col gap-3 sm:gap-4 mt-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: photoGrid[1].delay }}
-                  className={`${photoGrid[1].height} rounded-2xl bg-linear-to-br from-aurora-rose/20 via-primary/20 to-aurora-rose/20 border border-border overflow-hidden`}
-                >
-                  <div className="w-full h-full flex items-center justify-center bg-muted/50">
-                    <span className="text-4xl">🏆</span>
-                  </div>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: photoGrid[3].delay }}
-                  className={`${photoGrid[3].height} rounded-2xl bg-linear-to-br from-primary/20 via-aurora-rose/20 to-accent/20 border border-border overflow-hidden`}
-                >
-                  <div className="w-full h-full flex items-center justify-center bg-muted/50">
-                    <span className="text-4xl">🎉</span>
-                  </div>
-                </motion.div>
+              <div className="flex flex-col gap-3 md:gap-4 mt-6 md:mt-10">
+                {[photoGrid[1], photoGrid[3]].map((item) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: item.delay }}
+                    className={`${item.height} rounded-2xl md:rounded-3xl bg-linear-to-br from-accent/10 via-secondary/50 to-primary/10 border border-border overflow-hidden flex items-center justify-center hover:border-primary/50 transition-colors group`}
+                  >
+                    <span className="text-3xl md:text-4xl group-hover:scale-110 transition-transform duration-300">
+                      {item.icon}
+                    </span>
+                  </motion.div>
+                ))}
               </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll Indicator - Hidden on very small screens if space is tight */}
         <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1 }}
+          transition={{ duration: 0.6, delay: 1.2 }}
           onClick={scrollToAbout}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors cursor-pointer"
         >
-          <span className="text-sm font-medium">Scroll Down</span>
+          <span className="text-xs font-medium tracking-widest uppercase">
+            Explore
+          </span>
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            animate={{ y: [0, 5, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
           >
-            <ArrowDown className="h-5 w-5" />
+            <ArrowDown className="h-4 w-4" />
           </motion.div>
         </motion.button>
       </div>
