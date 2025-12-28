@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Heart, Github, Linkedin, Instagram, Mail, ArrowUp } from "lucide-react";
+import { Github, Linkedin, Instagram, Mail, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Footer = () => {
