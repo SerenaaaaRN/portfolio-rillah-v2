@@ -1,12 +1,14 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
+import { NavLink } from "./NavLink"; // Pastikan import NavLink yang baru kita buat
 
 const navItems = [
-  { name: "Home", href: "#home" },
+  { name: "Home", href: "#home" }, // Ubah #home menjadi / jika ini halaman utama
   { name: "About", href: "#about" },
   { name: "Journey", href: "#journey" },
   { name: "Stack", href: "#stack" },
@@ -27,12 +29,19 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    // Jika href adalah anchor link (dimulai dengan #)
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+      setIsMobileMenuOpen(false);
     }
-    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -50,30 +59,26 @@ export const Navbar = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <motion.a
-              href="#home"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection("#home");
-              }}
+            <NavLink
+              href="/"
               className="text-2xl font-display font-bold text-gradient cursor-pointer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              onClick={(e) => handleNavClick(e, "/")}
             >
               Portfolio
-            </motion.a>
+            </NavLink>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-1">
               {navItems.map((item) => (
-                <Button
+                <NavLink
                   key={item.name}
-                  variant="ghost"
-                  onClick={() => scrollToSection(item.href)}
-                  className="text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-300"
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-primary/10 rounded-md transition-all duration-300"
+                  activeClassName="text-foreground bg-primary/10"
                 >
                   {item.name}
-                </Button>
+                </NavLink>
               ))}
               <div className="ml-4">
                 <ThemeToggle />
@@ -134,16 +139,15 @@ export const Navbar = () => {
               className="flex flex-col items-center justify-center h-full gap-6"
             >
               {navItems.map((item, index) => (
-                <motion.button
+                <NavLink
                   key={item.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
-                  onClick={() => scrollToSection(item.href)}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   className="text-2xl font-display font-semibold text-foreground hover:text-primary transition-colors"
+                  activeClassName="text-primary"
                 >
                   {item.name}
-                </motion.button>
+                </NavLink>
               ))}
             </motion.div>
           </motion.div>

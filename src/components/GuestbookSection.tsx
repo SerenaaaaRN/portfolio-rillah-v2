@@ -100,7 +100,8 @@ export const GuestbookSection = () => {
             Guest<span className="text-gradient">book</span>
           </h2>
           <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-            Sign my guestbook and leave a message! I&apos;d love to hear from you.
+            Sign my guestbook and leave a message! I&apos;d love to hear from
+            you.
           </p>
         </motion.div>
 
