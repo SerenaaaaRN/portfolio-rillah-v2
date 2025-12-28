@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
-import { NavLink } from "./NavLink"; // Pastikan import NavLink yang baru kita buat
+import { NavLink } from "./NavLink"; 
 
 const navItems = [
-  { name: "Home", href: "#home" }, // Ubah #home menjadi / jika ini halaman utama
+  { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
   { name: "Journey", href: "#journey" },
   { name: "Stack", href: "#stack" },
@@ -33,7 +33,6 @@ export const Navbar = () => {
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
   ) => {
-    // Jika href adalah anchor link (dimulai dengan #)
     if (href.startsWith("#")) {
       e.preventDefault();
       const element = document.querySelector(href);

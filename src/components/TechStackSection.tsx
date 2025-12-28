@@ -1,280 +1,309 @@
 "use client";
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { Code2, Brain, Award } from "lucide-react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect, FC } from "react";
+import {
+  Code2,
+  Brain,
+  Award,
+  Laptop,
+  Maximize,
+  X,
+  LucideIcon,
+} from "lucide-react";
+import Image from "next/image";
 
-const mlTechnologies = [
-  { name: "Python", icon: "🐍", color: "from-yellow-500 to-blue-500" },
-  { name: "NumPy", icon: "📊", color: "from-blue-500 to-blue-700" },
-  { name: "Pandas", icon: "🐼", color: "from-purple-500 to-blue-600" },
-  { name: "Matplotlib", icon: "📈", color: "from-blue-400 to-green-500" },
-  { name: "Seaborn", icon: "🌊", color: "from-cyan-500 to-blue-600" },
-  { name: "TensorFlow", icon: "🧠", color: "from-orange-500 to-yellow-500" },
-  { name: "PyTorch", icon: "🔥", color: "from-red-500 to-orange-500" },
-  { name: "Scikit-learn", icon: "🤖", color: "from-blue-500 to-orange-500" },
-];
+interface Skill {
+  name: string;
+  logoSrc: string;
+}
 
-const softwareTechnologies = [
-  { name: "JavaScript", icon: "📜", color: "from-yellow-400 to-yellow-600" },
-  { name: "TypeScript", icon: "📘", color: "from-blue-500 to-blue-700" },
-  { name: "React", icon: "⚛️", color: "from-cyan-400 to-blue-500" },
-  { name: "Next.js", icon: "▲", color: "from-gray-700 to-gray-900" },
-  { name: "Node.js", icon: "💚", color: "from-green-500 to-green-700" },
-  { name: "Tailwind CSS", icon: "🎨", color: "from-teal-400 to-cyan-500" },
-  { name: "PostgreSQL", icon: "🐘", color: "from-blue-600 to-indigo-700" },
-  { name: "Git", icon: "🔧", color: "from-orange-500 to-red-500" },
-];
+interface SkillGroup {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  skills: Skill[];
+}
 
-const toolsTechnologies = [
-  { name: "Docker", icon: "🐳", color: "from-blue-400 to-blue-600" },
-  { name: "Figma", icon: "🎯", color: "from-purple-500 to-pink-500" },
-  { name: "VS Code", icon: "💻", color: "from-blue-500 to-blue-700" },
-  { name: "Postman", icon: "📮", color: "from-orange-500 to-red-500" },
-];
-
-const certificates = [
-  {
-    title: "Machine Learning Specialization",
-    issuer: "Coursera - Stanford University",
-    date: "2024",
-    icon: "🎖️",
-  },
-  {
-    title: "TensorFlow Developer Certificate",
-    issuer: "Google",
-    date: "2024",
-    icon: "🏅",
-  },
-  {
-    title: "AWS Cloud Practitioner",
-    issuer: "Amazon Web Services",
-    date: "2023",
-    icon: "☁️",
-  },
-  {
-    title: "Full Stack Web Development",
-    issuer: "Dicoding Indonesia",
-    date: "2023",
-    icon: "🌐",
-  },
-];
+interface Certificate {
+  title: string;
+  issuer: string;
+  date: string;
+  imageUrl: string;
+}
 
 type TabType = "tech" | "certificates";
 
-export const TechStackSection = () => {
-  const ref = useRef(null);
+const skillGroups: SkillGroup[] = [
+  {
+    title: "Machine Learning & Data Science",
+    description: "Core expertise in ML and data analysis",
+    icon: Brain,
+    skills: [
+      { name: "Python", logoSrc: "/logo/python.svg" },
+      { name: "Numpy", logoSrc: "/logo/numpy.svg" },
+      { name: "Pandas", logoSrc: "/logo/pandas.svg" },
+      { name: "Matplotlib", logoSrc: "/logo/matplotlib.svg" },
+      { name: "Seaborn", logoSrc: "/logo/seaborn.svg" },
+      { name: "Sympy", logoSrc: "/logo/sympy.svg" },
+    ],
+  },
+  {
+    title: "Software Development",
+    description: "Full-stack development capabilities",
+    icon: Code2,
+    skills: [
+      { name: "Java", logoSrc: "/logo/java.svg" },
+      { name: "Javascript", logoSrc: "/logo/javascript.svg" },
+      { name: "Typescript", logoSrc: "/logo/typescript.svg" },
+      { name: "React JS", logoSrc: "/logo/reactjs.svg" },
+      { name: "Tailwind CSS", logoSrc: "/logo/tailwindcss.svg" },
+      { name: "Dart", logoSrc: "/logo/dart.svg" },
+      { name: "C++", logoSrc: "/logo/c++.svg" },
+    ],
+  },
+  {
+    title: "Tools & Others",
+    description: "Development tools and productivity",
+    icon: Laptop,
+    skills: [
+      { name: "GitHub", logoSrc: "/logo/github.svg" },
+      { name: "Notion", logoSrc: "/logo/notion.svg" },
+    ],
+  },
+];
+
+const certificates: Certificate[] = [
+  {
+    title: "Pelatihan Pemrograman",
+    issuer: "HMIF Unsri",
+    date: "2024",
+    imageUrl:
+      "/assets/Sertifikat Peserta Pelatihan Pemrograman_DUHAIRILLAH.png",
+  },
+  {
+    title: "Belajar Dasar AI",
+    issuer: "Dicoding",
+    date: "2024",
+    imageUrl: "/assets/sertifikat_course_ai_dasar.png",
+  },
+  {
+    title: "Soon",
+    issuer: "",
+    date: "",
+    imageUrl: "",
+  },
+];
+
+export const TechStackSection: FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeTab, setActiveTab] = useState<TabType>("tech");
+  const [selectedCert, setSelectedCert] = useState<string | null>(null);
 
-  const tabs = [
-    { id: "tech" as TabType, label: "Tech Stack", icon: Code2 },
-    { id: "certificates" as TabType, label: "Certificates", icon: Award },
-  ];
+  const openModal = (imageUrl: string): void => {
+    if (imageUrl) setSelectedCert(imageUrl);
+  };
+
+  const closeModal = (): void => setSelectedCert(null);
+
+  useEffect(() => {
+    document.body.style.overflow = selectedCert ? "hidden" : "auto";
+  }, [selectedCert]);
 
   return (
     <section id="stack" className="py-24 relative overflow-hidden">
-      {/* Background Decoration */}
-      <div className="absolute top-0 left-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2" />
-
       <div className="container px-6 relative" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
           <span className="text-primary font-medium">Technologies I use</span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-2">
             Skills & <span className="text-gradient">Certificates</span>
           </h2>
-          <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-            A showcase of my technical skills and professional certifications
-          </p>
         </motion.div>
 
-        {/* Tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex justify-center mb-12"
-        >
+        {/* Tab Switcher */}
+        <div className="flex justify-center mb-12">
           <div className="inline-flex p-1 rounded-full bg-muted/50 border border-border">
-            {tabs.map((tab) => (
+            {(["tech", "certificates"] as TabType[]).map((tab) => (
               <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                key={tab}
+                onClick={() => setActiveTab(tab)}
                 className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                  activeTab === tab.id
+                  activeTab === tab
                     ? "bg-background text-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <tab.icon className="h-4 w-4" />
-                {tab.label}
+                {tab === "tech" ? (
+                  <Code2 className="h-4 w-4" />
+                ) : (
+                  <Award className="h-4 w-4" />
+                )}
+                {tab === "tech" ? "Tech Stack" : "Certificates"}
               </button>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Tech Stack Content */}
-        {activeTab === "tech" && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-5xl mx-auto space-y-12"
-          >
-            {/* ML & Data Science */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <Brain className="h-5 w-5 text-primary" />
-                <h3 className="text-lg font-semibold">
-                  Machine Learning & Data Science
-                </h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Core expertise in ML and data analysis
-              </p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                {mlTechnologies.map((tech, index) => (
-                  <TechCard
-                    key={tech.name}
-                    tech={tech}
-                    index={index}
-                    isInView={isInView}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Software Development */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <Code2 className="h-5 w-5 text-primary" />
-                <h3 className="text-lg font-semibold">Software Development</h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Full-stack development capabilities
-              </p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                {softwareTechnologies.map((tech, index) => (
-                  <TechCard
-                    key={tech.name}
-                    tech={tech}
-                    index={index + mlTechnologies.length}
-                    isInView={isInView}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Tools & Others */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <Code2 className="h-5 w-5 text-primary" />
-                <h3 className="text-lg font-semibold">Tools & Others</h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Development tools and productivity
-              </p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                {toolsTechnologies.map((tech, index) => (
-                  <TechCard
-                    key={tech.name}
-                    tech={tech}
-                    index={
-                      index +
-                      mlTechnologies.length +
-                      softwareTechnologies.length
-                    }
-                    isInView={isInView}
-                  />
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Certificates Content */}
-        {activeTab === "certificates" && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-4xl mx-auto"
-          >
-            <div className="grid sm:grid-cols-2 gap-4">
-              {certificates.map((cert, index) => (
-                <motion.div
-                  key={cert.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.1 + index * 0.1 }}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  className="p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-primary/10"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="text-3xl">{cert.icon}</div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-foreground mb-1">
-                        {cert.title}
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        {cert.issuer}
-                      </p>
-                      <p className="text-xs text-primary mt-2">{cert.date}</p>
-                    </div>
+        <AnimatePresence mode="wait">
+          {activeTab === "tech" ? (
+            <motion.div
+              key="tech"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              className="max-w-5xl mx-auto space-y-12"
+            >
+              {skillGroups.map((group) => (
+                <div key={group.title}>
+                  <div className="flex items-center gap-3 mb-6">
+                    <group.icon className="h-5 w-5 text-primary" />
+                    <h3 className="text-lg font-semibold">{group.title}</h3>
                   </div>
-                </motion.div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                    {group.skills.map((skill, index) => (
+                      <TechCard
+                        key={skill.name}
+                        skill={skill}
+                        index={index}
+                        isInView={isInView}
+                      />
+                    ))}
+                  </div>
+                </div>
               ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* Additional Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-16 text-center"
-        >
-          <p className="text-muted-foreground">
-            ...and always learning new technologies to stay up-to-date! 🚀
-          </p>
-        </motion.div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="certs"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="max-w-5xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {certificates.map((cert, index) => (
+                <CertificateCard
+                  key={`${cert.title}-${index}`}
+                  cert={cert}
+                  onCardClick={() => openModal(cert.imageUrl)}
+                />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
+
+      <AnimatePresence>
+        {selectedCert && (
+          <CertificateModal imageUrl={selectedCert} onClose={closeModal} />
+        )}
+      </AnimatePresence>
     </section>
   );
 };
 
 interface TechCardProps {
-  tech: { name: string; icon: string; color: string };
+  skill: Skill;
   index: number;
   isInView: boolean;
 }
 
-const TechCard = ({ tech, index, isInView }: TechCardProps) => (
+const TechCard: FC<TechCardProps> = ({ skill, index, isInView }) => (
   <motion.div
-    initial={{ opacity: 0, scale: 0.8 }}
+    initial={{ opacity: 0, scale: 0.9 }}
     animate={isInView ? { opacity: 1, scale: 1 } : {}}
-    transition={{ duration: 0.4, delay: 0.1 + index * 0.03 }}
-    whileHover={{ scale: 1.05, y: -3 }}
-    whileTap={{ scale: 0.95 }}
-    className="group relative"
+    transition={{ duration: 0.3, delay: index * 0.05 }}
+    whileHover={{ y: -5 }}
+    className="group p-4 rounded-xl bg-card border border-border hover:border-primary/40 transition-all duration-300"
   >
-    <div className="p-4 rounded-xl bg-card border border-border hover:border-primary/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-primary/10">
-      <div
-        className={`absolute inset-0 rounded-xl bg-linear-to-br ${tech.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
-      />
-      <div className="relative flex items-center gap-3">
-        <span className="text-2xl group-hover:scale-110 transition-transform duration-300">
-          {tech.icon}
-        </span>
-        <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-          {tech.name}
-        </span>
+    <div className="flex items-center gap-3">
+      <div className="relative w-8 h-8 shrink-0 group-hover:scale-110 transition-transform">
+        <Image
+          src={skill.logoSrc}
+          alt={skill.name}
+          fill
+          className="object-contain"
+        />
       </div>
+      <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground">
+        {skill.name}
+      </span>
     </div>
+  </motion.div>
+);
+
+interface CertificateCardProps {
+  cert: Certificate;
+  onCardClick: () => void;
+}
+
+const CertificateCard: FC<CertificateCardProps> = ({ cert, onCardClick }) => {
+  const hasImage = cert.imageUrl && cert.imageUrl.trim() !== "";
+
+  return (
+    <motion.div
+      whileHover={hasImage ? { y: -5 } : {}}
+      className={`bg-card rounded-2xl border border-border overflow-hidden group flex flex-col ${
+        hasImage ? "cursor-pointer" : "cursor-default opacity-80"
+      }`}
+      onClick={hasImage ? onCardClick : undefined}
+    >
+      <div className="aspect-video relative overflow-hidden bg-muted">
+        {hasImage ? (
+          <>
+            <motion.div layoutId={cert.imageUrl} className="w-full h-full">
+              <Image
+                src={cert.imageUrl}
+                alt={cert.title}
+                fill
+                className="object-cover p-2"
+              />
+            </motion.div>
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <Maximize size={32} className="text-white" />
+            </div>
+          </>
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/30">
+            <Award size={48} />
+          </div>
+        )}
+      </div>
+      <div className="p-4">
+        <h4 className="font-bold text-foreground leading-tight mb-1">
+          {cert.title}
+        </h4>
+        <p className="text-sm text-muted-foreground">{cert.issuer}</p>
+      </div>
+    </motion.div>
+  );
+};
+
+interface CertificateModalProps {
+  imageUrl: string;
+  onClose: () => void;
+}
+
+const CertificateModal: FC<CertificateModalProps> = ({ imageUrl, onClose }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-100 p-4"
+    onClick={onClose}
+  >
+    <button className="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 p-2 rounded-full transition-colors">
+      <X size={24} />
+    </button>
+    <motion.div
+      layoutId={imageUrl}
+      className="relative w-full max-w-5xl aspect-video"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <Image src={imageUrl} alt="Full View" fill className="object-contain" />
+    </motion.div>
   </motion.div>
 );
