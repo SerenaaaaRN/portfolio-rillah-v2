@@ -50,7 +50,6 @@ export const JourneySection = () => {
 
   return (
     <section id="journey" className="py-24 bg-muted/30 relative overflow-hidden">
-      {/* Background Decoration */}
       <div className="absolute top-1/2 left-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl -translate-y-1/2" />
       <div className="absolute top-1/2 right-0 w-72 h-72 bg-accent/5 rounded-full blur-3xl -translate-y-1/2" />
 

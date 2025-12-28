@@ -9,14 +9,19 @@ import {
   MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
-const photoGrid = [
-  { id: 1, height: "h-40 md:h-64", delay: 0.2, icon: "📸" },
-  { id: 2, height: "h-28 md:h-40", delay: 0.3, icon: "🏆" },
-  { id: 3, height: "h-32 md:h-48", delay: 0.4, icon: "🎓" },
-  { id: 4, height: "h-36 md:h-52", delay: 0.5, icon: "🎉" },
-  { id: 5, height: "h-40 md:h-60", delay: 0.6, icon: "🏛️" },
-];
+const photoGrid = {
+  left: [
+    { src: "/assets/me_makrab.jpg", height: "h-[260px] md:h-[330px]" },
+    { src: "/assets/me_almet.jpg", height: "h-[240px] md:h-[320px]" },
+  ],
+  right: [
+    { src: "/assets/card_makrab1.jpg", height: "h-[180px] md:h-[220px]" },
+    { src: "/assets/me_daribelakang.jpg", height: "h-[200px] md:h-[300px]" },
+  ],
+};
+
 
 export const HeroSection = () => {
   const scrollToAbout = () => {
@@ -107,14 +112,16 @@ export const HeroSection = () => {
             {/* Social Links */}
             <div className="flex items-center justify-center lg:justify-start gap-2 mt-10">
               {[
-                { icon: Github, href: "#", label: "GitHub" },
-                { icon: Linkedin, href: "#", label: "LinkedIn" },
-                { icon: Mail, href: "#", label: "Email" },
-                { icon: Instagram, href: "#", label: "Instagram" },
+                { icon: Github, href: "https://github.com/SerenaaaaRN", label: "GitHub" },
+                { icon: Linkedin, href: "https://www.linkedin.com/in/duhairillah-690679281/", label: "LinkedIn" },
+                { icon: Mail, href: "mailto:duhairillahred927@gmail.com", label: "Email" },
+                { icon: Instagram, href: "https://www.instagram.com/__rillah/?igsh=MWhvN21haXljNjFmNQ%3D%3D#", label: "Instagram" },
               ].map((social, i) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7 + i * 0.1 }}
@@ -134,37 +141,36 @@ export const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="flex-1 w-full max-w-[320px] sm:max-w-md lg:max-w-xl order-1 lg:order-2"
           >
-            <div className="grid grid-cols-2 gap-3 md:gap-4">
-              {/* Column 1 */}
-              <div className="flex flex-col gap-3 md:gap-4">
-                {[photoGrid[0], photoGrid[2], photoGrid[4]].map((item) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: item.delay }}
-                    className={`${item.height} rounded-2xl md:rounded-3xl bg-linear-to-br from-primary/10 via-secondary/50 to-accent/10 border border-border overflow-hidden flex items-center justify-center hover:border-primary/50 transition-colors group`}
+            <div className="grid grid-cols-2 gap-4 md:gap-5">
+              <div className="flex flex-col gap-4 md:gap-5">
+                {photoGrid.left.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`relative ${item.height} rounded-3xl overflow-hidden`}
                   >
-                    <span className="text-3xl md:text-4xl group-hover:scale-110 transition-transform duration-300">
-                      {item.icon}
-                    </span>
-                  </motion.div>
+                    <Image
+                      src={item.src}
+                      alt=""
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 ))}
               </div>
-              {/* Column 2 */}
-              <div className="flex flex-col gap-3 md:gap-4 mt-6 md:mt-10">
-                {[photoGrid[1], photoGrid[3]].map((item) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: item.delay }}
-                    className={`${item.height} rounded-2xl md:rounded-3xl bg-linear-to-br from-accent/10 via-secondary/50 to-primary/10 border border-border overflow-hidden flex items-center justify-center hover:border-primary/50 transition-colors group`}
+
+              <div className="flex flex-col gap-4 md:gap-5 mt-10">
+                {photoGrid.right.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`relative ${item.height} rounded-3xl overflow-hidden`}
                   >
-                    <span className="text-3xl md:text-4xl group-hover:scale-110 transition-transform duration-300">
-                      {item.icon}
-                    </span>
-                  </motion.div>
+                    <Image
+                      src={item.src}
+                      alt=""
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 ))}
               </div>
             </div>

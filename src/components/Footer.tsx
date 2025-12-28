@@ -31,8 +31,7 @@ export const Footer = () => {
               Portfolio
             </motion.a>
             <p className="text-sm text-muted-foreground flex items-center gap-1 justify-center md:justify-start">
-              Made with <Heart className="h-4 w-4 text-primary fill-primary" /> by
-              Your Name
+              Made by Rillah
             </p>
             <p className="text-xs text-muted-foreground mt-1">
               © {currentYear} All rights reserved.
@@ -42,10 +41,10 @@ export const Footer = () => {
           {/* Social Links */}
           <div className="flex items-center gap-3">
             {[
-              { icon: Github, href: "https://github.com", label: "GitHub" },
-              { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-              { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-              { icon: Mail, href: "mailto:hello@example.com", label: "Email" },
+              { icon: Github, href: "https://github.com/SerenaaaaRN", label: "GitHub" },
+              { icon: Linkedin, href: "https://www.linkedin.com/in/duhairillah-690679281/", label: "LinkedIn" },
+              { icon: Instagram, href: "https://www.instagram.com/__rillah/?igsh=MWhvN21haXljNjFmNQ%3D%3D#", label: "Instagram" },
+              { icon: Mail, href: "mailto:duhairillahred927@gmail.com", label: "Email" },
             ].map((social) => (
               <motion.a
                 key={social.label}

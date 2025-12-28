@@ -2,35 +2,34 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Code2, Palette, Rocket, Heart } from "lucide-react";
+import { Sigma, Cpu, MonitorSmartphone, Puzzle } from "lucide-react";
 
 const stats = [
-  { label: "Years Experience", value: "3+" },
-  { label: "Projects Completed", value: "20+" },
-  { label: "Happy Clients", value: "15+" },
-  { label: "Technologies", value: "12+" },
+  { label: "Learning Hours", value: "500+" },
+  { label: "Github Repos", value: "15+" },
+  { label: "Academic Project", value: "2+" },
 ];
 
 const highlights = [
   {
-    icon: Code2,
-    title: "Clean Code",
-    description: "Writing maintainable and scalable code",
+    icon: Sigma,
+    title: "Mathematical Foundations",
+    description: "Applying Calculus and Linear Algebra into code.",
   },
   {
-    icon: Palette,
-    title: "UI/UX Design",
-    description: "Creating beautiful user experiences",
+    icon: Cpu,
+    title: "Machine Learning",
+    description: "Building predictive models and analyzing data patterns.",
   },
   {
-    icon: Rocket,
-    title: "Performance",
-    description: "Optimizing for speed and efficiency",
+    icon: MonitorSmartphone,
+    title: "Frontend Development",
+    description: "Crafting responsive and modern web interfaces.",
   },
   {
-    icon: Heart,
-    title: "Passion",
-    description: "Loving what I do every single day",
+    icon: Puzzle,
+    title: "Problem Solving",
+    description: "Implementing efficient algorithms to solve complex tasks.",
   },
 ];
 
