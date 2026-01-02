@@ -1,12 +1,13 @@
 "use client";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect, FC } from "react";
-import { Code2, Award, Maximize, X } from "lucide-react";
+import { Code2, Award, X } from "lucide-react";
 import Image from "next/image";
-import { type Skill, type Certificate } from "@/types";
 import { skillGroups, certificates } from "@/data/skills";
 import { SectionHeader } from "../shared/SectionHeader";
 import { TabSwitcher } from "../shared/TabSwitcher";
+import { TechCard } from "../cards/TechCard";
+import { CertificateCard } from "../cards/CertificateCard";
 
 type TabType = "tech" | "certificates";
 
@@ -14,58 +15,6 @@ const tabOptions = [
   { id: "tech", label: "Tech Stack", icon: Code2 },
   { id: "certificates", label: "Certificates", icon: Award },
 ];
-
-const TechCard = ({ skill, index, isInView }: { skill: Skill; index: number; isInView: boolean }) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.9 }}
-    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-    transition={{ duration: 0.3, delay: index * 0.05 }}
-    whileHover={{ y: -5 }}
-    className="group p-4 rounded-xl bg-card border border-border hover:border-primary/40 transition-all duration-300"
-  >
-    <div className="flex items-center gap-3">
-      <div className="relative w-8 h-8 shrink-0 group-hover:scale-110 transition-transform">
-        <Image src={skill.logoSrc} alt={skill.name} fill className="object-contain" />
-      </div>
-      <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground">{skill.name}</span>
-    </div>
-  </motion.div>
-);
-
-const CertificateCard = ({ cert, onCardClick }: { cert: Certificate; onCardClick: () => void }) => {
-  const hasImage = cert.imageUrl && cert.imageUrl.trim() !== "";
-
-  return (
-    <motion.div
-      whileHover={hasImage ? { y: -5 } : {}}
-      className={`bg-card rounded-2xl border border-border overflow-hidden group flex flex-col ${
-        hasImage ? "cursor-pointer" : "cursor-default opacity-80"
-      }`}
-      onClick={hasImage ? onCardClick : undefined}
-    >
-      <div className="aspect-video relative overflow-hidden bg-muted">
-        {hasImage ? (
-          <>
-            <motion.div layoutId={cert.imageUrl} className="w-full h-full">
-              <Image src={cert.imageUrl} alt={cert.title} fill className="object-cover p-2" />
-            </motion.div>
-            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-              <Maximize size={32} className="text-white" />
-            </div>
-          </>
-        ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/30">
-            <Award size={48} />
-          </div>
-        )}
-      </div>
-      <div className="p-4">
-        <h4 className="font-bold text-foreground leading-tight mb-1">{cert.title}</h4>
-        <p className="text-sm text-muted-foreground">{cert.issuer}</p>
-      </div>
-    </motion.div>
-  );
-};
 
 const CertificateModal = ({ imageUrl, onClose }: { imageUrl: string; onClose: () => void }) => (
   <motion.div
@@ -92,7 +41,6 @@ const CertificateModal = ({ imageUrl, onClose }: { imageUrl: string; onClose: ()
 
 export const TechStackSection: FC = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeTab, setActiveTab] = useState<TabType>("tech");
   const [selectedCert, setSelectedCert] = useState<string | null>(null);
 
@@ -133,7 +81,7 @@ export const TechStackSection: FC = () => {
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                     {group.skills.map((skill, index) => (
-                      <TechCard key={skill.name} skill={skill} index={index} isInView={isInView} />
+                      <TechCard key={skill.name} skill={skill} index={index} />
                     ))}
                   </div>
                 </div>
