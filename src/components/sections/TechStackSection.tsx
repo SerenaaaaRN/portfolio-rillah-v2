@@ -6,30 +6,14 @@ import Image from "next/image";
 import { type Skill, type Certificate } from "@/types";
 import { skillGroups, certificates } from "@/data/skills";
 import { SectionHeader } from "../shared/SectionHeader";
+import { TabSwitcher } from "../shared/TabSwitcher";
 
 type TabType = "tech" | "certificates";
 
-
-const TabSwitcher = ({ activeTab, onTabChange }: { activeTab: TabType; onTabChange: (tab: TabType) => void }) => (
-  <div className="flex justify-center mb-12">
-    <div className="inline-flex p-1 rounded-full bg-muted/50 border border-border">
-      {(["tech", "certificates"] as TabType[]).map((tab) => (
-        <button
-          key={tab}
-          onClick={() => onTabChange(tab)}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-            activeTab === tab
-              ? "bg-background text-foreground shadow-sm"
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          {tab === "tech" ? <Code2 className="h-4 w-4" /> : <Award className="h-4 w-4" />}
-          {tab === "tech" ? "Tech Stack" : "Certificates"}
-        </button>
-      ))}
-    </div>
-  </div>
-);
+const tabOptions = [
+  { id: "tech", label: "Tech Stack", icon: Code2 },
+  { id: "certificates", label: "Certificates", icon: Award },
+];
 
 const TechCard = ({ skill, index, isInView }: { skill: Skill; index: number; isInView: boolean }) => (
   <motion.div
@@ -129,7 +113,7 @@ export const TechStackSection: FC = () => {
         <SectionHeader subtitle="Technologies I use" title="Skills &" highlight="Certificates" className="mb-12" />
 
         {/* Tab Switcher */}
-        <TabSwitcher activeTab={activeTab} onTabChange={setActiveTab} />
+        <TabSwitcher tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} className="mb-12" />
 
         {/* Content Area */}
         <AnimatePresence mode="wait">

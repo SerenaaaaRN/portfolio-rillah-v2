@@ -51,3 +51,8 @@ export interface SectionHeaderProps {
   description?: string;
   className?: string;
 }
+
+export interface CertificateCardProp {
+    cert: Certificate;
+    onCardClick: () => void;
+}

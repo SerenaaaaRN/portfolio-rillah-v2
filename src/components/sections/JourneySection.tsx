@@ -6,6 +6,7 @@ import { GraduationCap, Briefcase, Calendar, MapPin } from "lucide-react";
 import { type JourneyItem } from "@/types";
 import { educationItems, experienceItems } from "@/data/journey";
 import { SectionHeader } from "../shared/SectionHeader";
+import { TabSwitcher } from "../shared/TabSwitcher";
 
 type TabType = "academic" | "experience";
 
@@ -13,55 +14,6 @@ const tabs = [
   { id: "academic" as TabType, label: "Academic", icon: GraduationCap },
   { id: "experience" as TabType, label: "Experience", icon: Briefcase },
 ];
-
-// --- Sub-Components ---
-// const JourneyHeader = ({ isInView }: { isInView: boolean }) => (
-//   <motion.div
-//     initial={{ opacity: 0, y: 30 }}
-//     animate={isInView ? { opacity: 1, y: 0 } : {}}
-//     transition={{ duration: 0.6 }}
-//     className="text-center mb-12"
-//   >
-//     <span className="text-primary font-medium">My path so far</span>
-//     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-2">
-//       My <span className="text-gradient">Journey</span>
-//     </h2>
-//     <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-//       A timeline of my academic and professional milestones
-//     </p>
-//   </motion.div>
-// );
-
-interface TabSwitcherProp {
-  activeTab: TabType;
-  onTabChange: (tab: TabType) => void;
-  isInView: boolean;
-}
-const TabSwitcher = ({ activeTab, onTabChange, isInView }: TabSwitcherProp) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={isInView ? { opacity: 1, y: 0 } : {}}
-    transition={{ duration: 0.5, delay: 0.2 }}
-    className="flex justify-center mb-12"
-  >
-    <div className="inline-flex p-1 rounded-full bg-muted/50 border border-border">
-      {tabs.map((tab) => (
-        <button
-          key={tab.id}
-          onClick={() => onTabChange(tab.id)}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-            activeTab === tab.id
-              ? "bg-background text-foreground shadow-sm"
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          <tab.icon className="h-4 w-4" />
-          {tab.label}
-        </button>
-      ))}
-    </div>
-  </motion.div>
-);
 
 const TimelineNode = ({ activeTab }: { activeTab: TabType }) => (
   <div className="absolute left-0 md:left-1/2 w-10 h-10 rounded-full bg-card border-2 border-primary flex items-center justify-center md:-translate-x-1/2 shadow-lg shadow-primary/20 z-10">
@@ -163,7 +115,7 @@ export const JourneySection = () => {
         />
 
         {/* Tab Switcher */}
-        <TabSwitcher activeTab={activeTab} onTabChange={setActiveTab} isInView={isInView} />
+        <TabSwitcher tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} className="mb-12" />
 
         {/* Timeline Container */}
         <motion.div
