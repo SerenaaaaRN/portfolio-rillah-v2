@@ -1,64 +1,13 @@
 "use client";
+
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Sigma, Cpu, MonitorSmartphone, Puzzle, LucideIcon } from "lucide-react";
+import { Stats, Highlights, StatItem, HighlightItem } from "@/data/about";
+import { SectionHeader } from "../shared/SectionHeader";
 
-type StatsData = {
-  label: string;
-  value: string;
-};
-
-type HighlightData = {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-};
-
-const stats: StatsData[] = [
-  { label: "Learning Hours", value: "500+" },
-  { label: "Github Repos", value: "15+" },
-  { label: "Academic Project", value: "2+" },
-];
-
-const highlights: HighlightData[] = [
-  {
-    icon: Sigma,
-    title: "Mathematical Foundations",
-    description: "Applying Calculus and Linear Algebra into code.",
-  },
-  {
-    icon: Cpu,
-    title: "Machine Learning",
-    description: "Building predictive models and analyzing data patterns.",
-  },
-  {
-    icon: MonitorSmartphone,
-    title: "Frontend Development",
-    description: "Crafting responsive and modern web interfaces.",
-  },
-  {
-    icon: Puzzle,
-    title: "Problem Solving",
-    description: "Implementing efficient algorithms to solve complex tasks.",
-  },
-];
-
-const AboutHeader = ({ isInView }: { isInView: boolean }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    animate={isInView ? { opacity: 1, y: 0 } : {}}
-    transition={{ duration: 0.6 }}
-    className="text-center mb-16"
-  >
-    <span className="text-primary font-medium">Get to know me</span>
-    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-2">
-      About <span className="text-gradient">Me</span>
-    </h2>
-  </motion.div>
-);
-
+// --- Sub-Components ---
 interface StatCardProp {
-  stat: StatsData;
+  stat: StatItem;
   index: number;
   isInView: boolean;
 }
@@ -76,7 +25,7 @@ const StatCard = ({ stat, index, isInView }: StatCardProp) => (
 );
 
 interface HighlightCardProp {
-  item: HighlightData;
+  item: HighlightItem;
   index: number;
   isInView: boolean;
 }
@@ -118,7 +67,7 @@ const AboutBio = ({ isInView }: { isInView: boolean }) => (
     </p>
 
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6">
-      {stats.map((stat, index) => (
+      {Stats.map((stat, index) => (
         <StatCard key={stat.label} stat={stat} index={index} isInView={isInView} />
       ))}
     </div>
@@ -132,7 +81,7 @@ const HighlightsGrid = ({ isInView }: { isInView: boolean }) => (
     transition={{ duration: 0.6, delay: 0.3 }}
     className="grid grid-cols-2 gap-4"
   >
-    {highlights.map((item, index) => (
+    {Highlights.map((item, index) => (
       <HighlightCard key={item.title} item={item} index={index} isInView={isInView} />
     ))}
   </motion.div>
@@ -149,12 +98,10 @@ export const AboutSection = () => {
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
 
       <div className="container px-6 relative" ref={ref}>
-        <AboutHeader isInView={isInView} />
+        <SectionHeader subtitle="Get to know me" title="About" highlight="Me" className="mb-16" />
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* kolom sebelah kiri */}
           <AboutBio isInView={isInView} />
-          {/* kolom sebelah kanan */}
           <HighlightsGrid isInView={isInView} />
         </div>
       </div>

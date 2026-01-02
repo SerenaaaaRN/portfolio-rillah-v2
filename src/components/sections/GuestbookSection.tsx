@@ -1,24 +1,13 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { Send, MessageSquare, User, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import { createClient } from "@/utils/supabase/client";
-
-// --- Types & Helpers ---
-
-const supabase = createClient();
-
-interface GuestbookMessage {
-  id: number | string;
-  name: string;
-  message: string;
-  created_at: string;
-}
+import { useGuestbook, GuestbookMessage } from "@/hooks/useGuestbook";
+import { SectionHeader } from "../shared/SectionHeader";
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -28,101 +17,88 @@ const formatDate = (dateString: string) => {
   });
 };
 
-// --- Sub-Components ---
-
-const GuestbookHeader = ({ isInView }: { isInView: boolean }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    animate={isInView ? { opacity: 1, y: 0 } : {}}
-    transition={{ duration: 0.6 }}
-    className="text-center mb-16"
-  >
-    <span className="text-primary font-medium">Leave a message</span>
-    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-2">
-      Guest<span className="text-gradient">book</span>
-    </h2>
-    <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-      Sign my guestbook and leave a message! I&apos;d love to hear from you.
-    </p>
-  </motion.div>
-);
-
 const GuestbookForm = ({
-  name,
-  setName,
-  message,
-  setMessage,
-  isSubmitting,
   onSubmit,
+  isSubmitting,
   isInView,
 }: {
-  name: string;
-  setName: (v: string) => void;
-  message: string;
-  setMessage: (v: string) => void;
+  onSubmit: (name: string, message: string) => Promise<boolean | undefined>;
   isSubmitting: boolean;
-  onSubmit: (e: React.FormEvent) => void;
   isInView: boolean;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, x: -30 }}
-    animate={isInView ? { opacity: 1, x: 0 } : {}}
-    transition={{ duration: 0.6, delay: 0.2 }}
-  >
-    <form onSubmit={onSubmit} className="space-y-4">
-      <div className="p-6 rounded-2xl bg-card border border-border">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-            <MessageSquare className="h-5 w-5 text-primary" />
-          </div>
-          <div>
-            <h3 className="font-display font-semibold">Leave a message</h3>
-            <p className="text-sm text-muted-foreground">Your message will appear below</p>
-          </div>
-        </div>
+}) => {
+  const [name, setName] = useState("");
+  const [msg, setMsg] = useState("");
 
-        <div className="space-y-4">
-          <div>
-            <label className="text-sm font-medium mb-2 block">Your Name</label>
-            <Input
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="bg-background border-border focus:border-primary"
-            />
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const success = await onSubmit(name, msg);
+    if (success) {
+      setName("");
+      setMsg("");
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -30 }}
+      animate={isInView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.6, delay: 0.2 }}
+    >
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="p-6 rounded-2xl bg-card border border-border">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <MessageSquare className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h3 className="font-display font-semibold">Leave a message</h3>
+              <p className="text-sm text-muted-foreground">Your message will appear below</p>
+            </div>
           </div>
-          <div>
-            <label className="text-sm font-medium mb-2 block">Message</label>
-            <Textarea
-              placeholder="Write your message here..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={4}
-              className="bg-background border-border focus:border-primary resize-none"
-            />
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium mb-2 block">Your Name</label>
+              <Input
+                placeholder="Enter your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="bg-background border-border focus:border-primary"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-2 block">Message</label>
+              <Textarea
+                placeholder="Write your message here..."
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
+                rows={4}
+                className="bg-background border-border focus:border-primary resize-none"
+              />
+            </div>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send className="h-4 w-4 mr-2" />
+                  Send Message
+                </>
+              )}
+            </Button>
           </div>
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl"
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Sending...
-              </>
-            ) : (
-              <>
-                <Send className="h-4 w-4 mr-2" />
-                Send Message
-              </>
-            )}
-          </Button>
         </div>
-      </div>
-    </form>
-  </motion.div>
-);
+      </form>
+    </motion.div>
+  );
+};
 
 const MessageCard = ({ msg, index }: { msg: GuestbookMessage; index: number }) => (
   <motion.div
@@ -186,96 +162,27 @@ const MessageList = ({
 export const GuestbookSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const { toast } = useToast();
 
-  const [name, setName] = useState("");
-  const [message, setMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [messages, setMessages] = useState<GuestbookMessage[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Fetch data
-  useEffect(() => {
-    const fetchMessages = async () => {
-      setIsLoading(true);
-      const { data, error } = await supabase.from("reviews").select("*").order("created_at", { ascending: false });
-
-      if (error) {
-        console.error("Error fetching messages:", error);
-      } else {
-        setMessages(data || []);
-      }
-      setIsLoading(false);
-    };
-
-    fetchMessages();
-  }, []);
-
-  // Submit handler
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!name.trim() || !message.trim()) {
-      toast({
-        title: "Missing fields",
-        description: "Please fill in both name and message.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    const { data, error } = await supabase
-      .from("reviews")
-      .insert([{ name: name.trim(), message: message.trim() }])
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
-      });
-      console.error("Supabase Error:", error);
-    } else {
-      if (data) {
-        setMessages([data[0], ...messages]);
-      }
-      setName("");
-      setMessage("");
-      toast({
-        title: "Message sent! 🎉",
-        description: "Thanks for leaving a message!",
-      });
-    }
-    setIsSubmitting(false);
-  };
+  const { messages, isLoading, isSubmitting, submitMessage } = useGuestbook();
 
   return (
     <section id="guestbook" className="py-24 relative overflow-hidden">
-      {/* Background Decoration */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
 
       <div className="container px-6 relative" ref={ref}>
-        {/* Header */}
-        <GuestbookHeader isInView={isInView} />
+        {/* Header Shared */}
+        <SectionHeader
+          subtitle="Leave a message"
+          title="Guest"
+          highlight="book"
+          description="Sign my guestbook and leave a message! I'd love to hear from you."
+          className="mb-16"
+        />
 
         <div className="max-w-4xl mx-auto grid lg:grid-cols-2 gap-8">
-          {/* Form Component */}
-          <GuestbookForm
-            name={name}
-            setName={setName}
-            message={message}
-            setMessage={setMessage}
-            isSubmitting={isSubmitting}
-            onSubmit={handleSubmit}
-            isInView={isInView}
-          />
+          <GuestbookForm onSubmit={submitMessage} isSubmitting={isSubmitting} isInView={isInView} />
 
-          {/* List Component */}
           <MessageList messages={messages} isLoading={isLoading} isInView={isInView} />
         </div>
       </div>
