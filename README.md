@@ -17,8 +17,8 @@ This repository contains the source code for my personal portfolio, showcasing m
 - **Font**: Outfit & Space Grotesk
 
 ### Backend & Services
-- **Database**: [Supabase](https://supabase.com/) (PostgreSQL)
-- **Deployment**: [Vercel](https://vercel.com/) (Recommended)
+- **Database**: [Supabase](https://supabase.com/)
+- **Deployment**: [Vercel](https://vercel.com/)
 
 ---
 
