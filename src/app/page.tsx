@@ -4,16 +4,20 @@ import { JourneySection } from "@/components/JourneySection";
 import { TechStackSection } from "@/components/TechStackSection";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { GuestbookSection } from "@/components/GuestbookSection";
+import { FullscreenToggle } from "@/components/ui/FullScreenToggle";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <HeroSection />
-      <AboutSection />
-      <JourneySection />
-      <TechStackSection />
-      <ProjectsSection />
-      <GuestbookSection />
-    </div>
+    <main>
+      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+        <HeroSection />
+        <AboutSection />
+        <JourneySection />
+        <TechStackSection />
+        <ProjectsSection />
+        <GuestbookSection />
+      </div>
+      <FullscreenToggle />
+    </main>
   );
 }
