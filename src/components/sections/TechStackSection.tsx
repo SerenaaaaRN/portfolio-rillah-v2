@@ -5,7 +5,7 @@ import { Code2, Award, Maximize, X } from "lucide-react";
 import Image from "next/image";
 import { type Skill, type Certificate } from "@/types";
 import { skillGroups, certificates } from "@/data/skills";
-import { SectionHeader } from "./shared/SectionHeader";
+import { SectionHeader } from "../shared/SectionHeader";
 
 type TabType = "tech" | "certificates";
 
@@ -126,6 +126,7 @@ export const TechStackSection: FC = () => {
     <section id="stack" className="py-24 relative overflow-hidden">
       <div className="container px-6 relative" ref={ref}>
         {/* Header */}
+        <SectionHeader subtitle="Technologies I use" title="Skills &" highlight="Certificates" className="mb-12" />
 
         {/* Tab Switcher */}
         <TabSwitcher activeTab={activeTab} onTabChange={setActiveTab} />

@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail, Instagram, MapPin } from "lucide-react";
+import { ArrowDown, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Meteors } from "./ui/meteors";
+import { Meteors } from "../ui/meteors";
+import { socialLinks } from "@/data/socials";
 
 const photoGridData = {
   left: [
@@ -16,29 +17,6 @@ const photoGridData = {
     { src: "/assets/me_daribelakang.jpg", height: "h-[200px] md:h-[300px]" },
   ],
 };
-
-const socialLinks = [
-  {
-    icon: Github,
-    href: "https://github.com/SerenaaaaRN",
-    label: "GitHub",
-  },
-  {
-    icon: Linkedin,
-    href: "https://www.linkedin.com/in/duhairillah-690679281/",
-    label: "LinkedIn",
-  },
-  {
-    icon: Mail,
-    href: "mailto:duhairillahred927@gmail.com",
-    label: "Email",
-  },
-  {
-    icon: Instagram,
-    href: "https://www.instagram.com/__rillah/?igsh=MWhvN21haXljNjFmNQ%3D%3D#",
-    label: "Instagram",
-  },
-];
 
 // --- Sub-Components ---
 const HeroBackground = () => (

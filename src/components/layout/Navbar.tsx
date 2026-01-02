@@ -2,9 +2,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { ThemeToggle } from "./ThemeToggle";
+import { ThemeToggle } from "../ThemeToggle";
 import { Button } from "@/components/ui/button";
-import { NavLink } from "./NavLink";
+import { NavLink } from "../NavLink";
 
 type NavItem = {
   name: string;

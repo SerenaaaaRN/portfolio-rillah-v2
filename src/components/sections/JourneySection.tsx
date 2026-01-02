@@ -3,49 +3,11 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { GraduationCap, Briefcase, Calendar, MapPin } from "lucide-react";
+import { type JourneyItem } from "@/types";
+import { educationItems, experienceItems } from "@/data/journey";
+import { SectionHeader } from "../shared/SectionHeader";
 
 type TabType = "academic" | "experience";
-
-interface JourneyItem {
-  year: string;
-  title: string;
-  organization: string;
-  location: string;
-  description: string;
-  tags: string[];
-}
-
-const educationItems: JourneyItem[] = [
-  {
-    year: "2025 - Sekarang",
-    title: "S1 Teknik Informatika",
-    organization: "Universitas Sriwijaya",
-    location: "Indralaya, Sumatra Selatan",
-    description:
-      "Mahasiswa tingkat pertama dengan minat kuat pada Software Engineering dan Artificial Intelligence. Saat ini aktif membangun fondasi dalam algoritma pemrograman dan matematika komputasi.",
-    tags: ["Algoritma Struktur Data", "Kalkulus", "Matriks dan Vektor"],
-  },
-  {
-    year: "2022 - 2025",
-    title: "MAN 1 Palembang",
-    organization: "",
-    location: "Palembang, Sumatra Selatan",
-    description: "Lulusan jurusan IPA (Ilmu Pengetahuan Alam). Memiliki ketertarikan pada Matematika",
-    tags: ["Matematika", "Informatika"],
-  },
-];
-
-const experienceItems: JourneyItem[] = [
-  {
-    year: "2025",
-    title: "Volunteer Software Engineer",
-    organization: "HMIF",
-    location: "Universitas Sriwijaya",
-    description:
-      "Berkontribusi dalam menyempurnakan desain antarmuka (UI) di Figma, khususnya dalam integrasi aset visual dan penambahan komponen fitur pada prototipe aplikasi.",
-    tags: ["Figma"],
-  },
-];
 
 const tabs = [
   { id: "academic" as TabType, label: "Academic", icon: GraduationCap },
@@ -53,22 +15,22 @@ const tabs = [
 ];
 
 // --- Sub-Components ---
-const JourneyHeader = ({ isInView }: { isInView: boolean }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    animate={isInView ? { opacity: 1, y: 0 } : {}}
-    transition={{ duration: 0.6 }}
-    className="text-center mb-12"
-  >
-    <span className="text-primary font-medium">My path so far</span>
-    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-2">
-      My <span className="text-gradient">Journey</span>
-    </h2>
-    <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
-      A timeline of my academic and professional milestones
-    </p>
-  </motion.div>
-);
+// const JourneyHeader = ({ isInView }: { isInView: boolean }) => (
+//   <motion.div
+//     initial={{ opacity: 0, y: 30 }}
+//     animate={isInView ? { opacity: 1, y: 0 } : {}}
+//     transition={{ duration: 0.6 }}
+//     className="text-center mb-12"
+//   >
+//     <span className="text-primary font-medium">My path so far</span>
+//     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-2">
+//       My <span className="text-gradient">Journey</span>
+//     </h2>
+//     <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+//       A timeline of my academic and professional milestones
+//     </p>
+//   </motion.div>
+// );
 
 interface TabSwitcherProp {
   activeTab: TabType;
@@ -193,7 +155,12 @@ export const JourneySection = () => {
 
       <div className="container px-6 relative" ref={ref}>
         {/* Header */}
-        <JourneyHeader isInView={isInView} />
+        <SectionHeader
+          subtitle="My path so far"
+          title="My"
+          highlight="Journey"
+          description="A timeline of my academic and professional milestones"
+        />
 
         {/* Tab Switcher */}
         <TabSwitcher activeTab={activeTab} onTabChange={setActiveTab} isInView={isInView} />

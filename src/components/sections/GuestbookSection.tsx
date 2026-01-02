@@ -77,9 +77,7 @@ const GuestbookForm = ({
           </div>
           <div>
             <h3 className="font-display font-semibold">Leave a message</h3>
-            <p className="text-sm text-muted-foreground">
-              Your message will appear below
-            </p>
+            <p className="text-sm text-muted-foreground">Your message will appear below</p>
           </div>
         </div>
 
@@ -126,13 +124,7 @@ const GuestbookForm = ({
   </motion.div>
 );
 
-const MessageCard = ({
-  msg,
-  index,
-}: {
-  msg: GuestbookMessage;
-  index: number;
-}) => (
+const MessageCard = ({ msg, index }: { msg: GuestbookMessage; index: number }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -146,13 +138,9 @@ const MessageCard = ({
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2 mb-1">
           <span className="font-medium text-sm truncate">{msg.name}</span>
-          <span className="text-xs text-muted-foreground shrink-0">
-            {formatDate(msg.created_at)}
-          </span>
+          <span className="text-xs text-muted-foreground shrink-0">{formatDate(msg.created_at)}</span>
         </div>
-        <p className="text-sm text-muted-foreground wrap-break-word">
-          {msg.message}
-        </p>
+        <p className="text-sm text-muted-foreground wrap-break-word">{msg.message}</p>
       </div>
     </div>
   </motion.div>
@@ -185,13 +173,9 @@ const MessageList = ({
           <p>Loading messages...</p>
         </div>
       ) : messages.length === 0 ? (
-        <p className="text-center py-12 text-muted-foreground">
-          No messages yet. Be the first!
-        </p>
+        <p className="text-center py-12 text-muted-foreground">No messages yet. Be the first!</p>
       ) : (
-        messages.map((msg, index) => (
-          <MessageCard key={msg.id} msg={msg} index={index} />
-        ))
+        messages.map((msg, index) => <MessageCard key={msg.id} msg={msg} index={index} />)
       )}
     </div>
   </motion.div>
@@ -214,10 +198,7 @@ export const GuestbookSection = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       setIsLoading(true);
-      const { data, error } = await supabase
-        .from("reviews")
-        .select("*")
-        .order("created_at", { ascending: false });
+      const { data, error } = await supabase.from("reviews").select("*").order("created_at", { ascending: false });
 
       if (error) {
         console.error("Error fetching messages:", error);
@@ -295,11 +276,7 @@ export const GuestbookSection = () => {
           />
 
           {/* List Component */}
-          <MessageList
-            messages={messages}
-            isLoading={isLoading}
-            isInView={isInView}
-          />
+          <MessageList messages={messages} isLoading={isLoading} isInView={isInView} />
         </div>
       </div>
     </section>

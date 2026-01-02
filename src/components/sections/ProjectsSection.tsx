@@ -5,61 +5,9 @@ import { useRef } from "react";
 import { ExternalLink, Github, Folder, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-
-interface Project {
-  title: string;
-  description: string;
-  image: string;
-  tags: string[];
-  github: string;
-  demo: string;
-  featured: boolean;
-}
-
-const projects: Project[] = [
-  {
-    title: "Kalkulator Penyelesaian Persamaan Diferensial Kalkulus",
-    description:
-      "Menggunakan algoritma Python untuk menampilkan langkah penyelesaian. Dibuat sebagai Final Project mata kuliah Kalkulus.",
-    image: "/assets/Project1.png",
-    tags: ["ReactJS", "TailwindCSS", "Python", "Sympy", "Numpy", "Matplotlib"],
-    github: "https://github.com/SerenaaaaRN/kalkulus-project-1",
-    demo: "https://kalkulusproject.vercel.app/",
-    featured: true,
-  },
-  {
-    title: "Soon",
-    description: "",
-    image: "",
-    tags: [],
-    github: "https://github.com",
-    demo: "https://demo.com",
-    featured: true,
-  },
-  {
-    title: "Soon",
-    description: "",
-    image: "", // Kosong akan menampilkan icon default
-    tags: [],
-    github: "https://github.com",
-    demo: "https://demo.com",
-    featured: false,
-  },
-];
-
-// --- Sub-Components ---
-const SectionHeader = ({ isInView }: { isInView: boolean }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    animate={isInView ? { opacity: 1, y: 0 } : {}}
-    className="text-center mb-16"
-  >
-    <span className="text-primary font-medium">What I&apos;ve built</span>
-    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-2">
-      Featured <span className="text-gradient">Projects</span>
-    </h2>
-  </motion.div>
-);
+import { Project } from "@/types";
+import { projects } from "@/data/projects";
+import { SectionHeader } from "../shared/SectionHeader";
 
 const ProjectImage = ({ title, image, featured }: { title: string; image: string; featured: boolean }) => {
   const isImagePath = image.startsWith("/") || image.startsWith("http");
@@ -159,7 +107,7 @@ export const ProjectsSection = () => {
   return (
     <section id="projects" className="py-24 bg-muted/30 relative overflow-hidden">
       <div className="container px-6 relative" ref={ref}>
-        <SectionHeader isInView={isInView} />
+        <SectionHeader subtitle="What I've built" title="Featured" highlight="Project" />
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {projects.map((project, index) => (

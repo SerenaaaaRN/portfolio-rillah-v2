@@ -1,9 +1,9 @@
-import { HeroSection } from "@/components/HeroSection";
-import { AboutSection } from "@/components/AboutSection";
-import { JourneySection } from "@/components/JourneySection";
-import { TechStackSection } from "@/components/TechStackSection";
-import { ProjectsSection } from "@/components/ProjectsSection";
-import { GuestbookSection } from "@/components/GuestbookSection";
+import { HeroSection } from "@/components/sections/HeroSection";
+import { AboutSection } from "@/components/sections/AboutSection";
+import { JourneySection } from "@/components/sections/JourneySection";
+import { TechStackSection } from "@/components/sections/TechStackSection";
+import { ProjectsSection } from "@/components/sections/ProjectsSection";
+import { GuestbookSection } from "@/components/sections/GuestbookSection";
 import { FullscreenToggle } from "@/components/ui/FullScreenToggle";
 
 export default function Home() {

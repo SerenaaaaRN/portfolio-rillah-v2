@@ -70,9 +70,7 @@ const StatCard = ({ stat, index, isInView }: StatCardProp) => (
     transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
     className="text-center p-4 rounded-xl bg-card border border-border"
   >
-    <div className="text-2xl sm:text-3xl font-display font-bold text-gradient">
-      {stat.value}
-    </div>
+    <div className="text-2xl sm:text-3xl font-display font-bold text-gradient">{stat.value}</div>
     <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
   </motion.div>
 );
@@ -106,7 +104,6 @@ const AboutBio = ({ isInView }: { isInView: boolean }) => (
     transition={{ duration: 0.6, delay: 0.2 }}
     className="space-y-6"
   >
-    
     <p className="text-lg text-muted-foreground leading-relaxed">
       I am a first-year Computer Science student at Sriwijaya University with an interest in Artificial Intelligence. My
       journey began with a curiosity about how Mathematics could be implemented, which led me to delve into machine
@@ -136,12 +133,7 @@ const HighlightsGrid = ({ isInView }: { isInView: boolean }) => (
     className="grid grid-cols-2 gap-4"
   >
     {highlights.map((item, index) => (
-      <HighlightCard
-        key={item.title}
-        item={item}
-        index={index}
-        isInView={isInView}
-      />
+      <HighlightCard key={item.title} item={item} index={index} isInView={isInView} />
     ))}
   </motion.div>
 );

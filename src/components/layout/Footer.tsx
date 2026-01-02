@@ -1,37 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Instagram, Mail, ArrowUp } from "lucide-react";
-import { LucideIcon } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-type SocialLink = {
-  icon: LucideIcon;
-  href: string;
-  label: string;
-};
-
-const socialLinks: SocialLink[] = [
-  {
-    icon: Github,
-    href: "https://github.com/SerenaaaaRN",
-    label: "GitHub",
-  },
-  {
-    icon: Linkedin,
-    href: "https://www.linkedin.com/in/duhairillah-690679281/",
-    label: "LinkedIn",
-  },
-  {
-    icon: Instagram,
-    href: "https://www.instagram.com/__rillah/?igsh=MWhvN21haXljNjFmNQ%3D%3D#",
-    label: "Instagram",
-  },
-  {
-    icon: Mail,
-    href: "mailto:duhairillahred927@gmail.com",
-    label: "Email",
-  },
-];
+import { type SocialLink } from "@/types";
+import { socialLinks } from "@/data/socials";
 
 const BrandIdentity = ({ currentYear, scrollToTop }: { currentYear: number; scrollToTop: () => void }) => (
   <div className="text-center md:text-left">
