@@ -106,30 +106,23 @@ const AboutBio = ({ isInView }: { isInView: boolean }) => (
     transition={{ duration: 0.6, delay: 0.2 }}
     className="space-y-6"
   >
+    
     <p className="text-lg text-muted-foreground leading-relaxed">
-      I am a first-year Computer Science student at Sriwijaya University with an
-      interest in Artificial Intelligence. My journey began with a curiosity
-      about how Mathematics could be implemented, which led me to delve into
-      machine learning.
+      I am a first-year Computer Science student at Sriwijaya University with an interest in Artificial Intelligence. My
+      journey began with a curiosity about how Mathematics could be implemented, which led me to delve into machine
+      learning.
     </p>
     <p className="text-lg text-muted-foreground leading-relaxed">
-      Currently, I am focusing on building a strong foundation in Software
-      Engineering and Artificial Intelligence. I believe that the best
-      technology comes from a strong understanding of basic concepts.
+      Currently, I am focusing on building a strong foundation in Software Engineering and Artificial Intelligence. I
+      believe that the best technology comes from a strong understanding of basic concepts.
     </p>
     <p className="text-lg text-muted-foreground leading-relaxed">
-      Outside of class, I actively explore mathematics, programming algorithms,
-      and basic machine learning algorithms.
+      Outside of class, I actively explore mathematics, programming algorithms, and basic machine learning algorithms.
     </p>
 
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6">
       {stats.map((stat, index) => (
-        <StatCard
-          key={stat.label}
-          stat={stat}
-          index={index}
-          isInView={isInView}
-        />
+        <StatCard key={stat.label} stat={stat} index={index} isInView={isInView} />
       ))}
     </div>
   </motion.div>

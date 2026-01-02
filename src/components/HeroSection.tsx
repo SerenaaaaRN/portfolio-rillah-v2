@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail, Instagram, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { Meteors } from "./ui/meteors";
 
 const photoGridData = {
   left: [
@@ -47,6 +48,8 @@ const HeroBackground = () => (
       <div className="mesh-gradient mesh-gradient-1 opacity-50 md:opacity-100" />
       <div className="mesh-gradient mesh-gradient-2 opacity-50 md:opacity-100" />
       <div className="mesh-gradient mesh-gradient-3 opacity-50 md:opacity-100" />
+
+      <Meteors number={30} />
     </div>
 
     {/* Grid Pattern Overlay */}
