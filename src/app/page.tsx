@@ -5,8 +5,6 @@ import { TechStackSection } from "@/components/TechStackSection";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { GuestbookSection } from "@/components/GuestbookSection";
 
-
-
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">

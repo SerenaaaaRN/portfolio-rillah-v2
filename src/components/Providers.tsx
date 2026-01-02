@@ -1,4 +1,4 @@
-"use client"; // Penting karena menggunakan Context/State
+"use client";
 
 import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

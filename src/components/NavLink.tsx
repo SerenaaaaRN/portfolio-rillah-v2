@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
-// Definisi props agar kompatibel dengan cara Next.js bekerja
 interface NavLinkProps extends React.ComponentPropsWithoutRef<typeof Link> {
   activeClassName?: string;
   exact?: boolean;
@@ -15,20 +14,9 @@ const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
   ({ className, activeClassName, href, exact, ...props }, ref) => {
     const pathname = usePathname();
 
-    // Logika untuk menentukan apakah link sedang aktif
-    // Jika exact=true, harus sama persis. Jika tidak, cukup cek apakah diawali path tersebut
-    const isActive = exact
-      ? pathname === href
-      : pathname.startsWith(href.toString());
+    const isActive = exact ? pathname === href : pathname.startsWith(href.toString());
 
-    return (
-      <Link
-        ref={ref}
-        href={href}
-        className={cn(className, isActive && activeClassName)}
-        {...props}
-      />
-    );
+    return <Link ref={ref} href={href} className={cn(className, isActive && activeClassName)} {...props} />;
   }
 );
 
