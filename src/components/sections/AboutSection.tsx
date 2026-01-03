@@ -36,13 +36,13 @@ const HighlightCard = ({ item, index, isInView }: HighlightCardProp) => (
     animate={isInView ? { opacity: 1, scale: 1 } : {}}
     transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
     whileHover={{ y: -5, scale: 1.02 }}
-    className="p-6 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
+    className="aspect-square p-6 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 flex flex-col justify-center"
   >
-    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 shrink-0">
       <item.icon className="h-6 w-6 text-primary" />
     </div>
-    <h3 className="font-display font-semibold text-lg mb-2">{item.title}</h3>
-    <p className="text-sm text-muted-foreground">{item.description}</p>
+    <h3 className="font-display font-semibold text-lg mb-2 leading-tight">{item.title}</h3>
+    <p className="text-sm text-muted-foreground line-clamp-3">{item.description}</p>
   </motion.div>
 );
 
@@ -79,7 +79,7 @@ const HighlightsGrid = ({ isInView }: { isInView: boolean }) => (
     initial={{ opacity: 0, x: 30 }}
     animate={isInView ? { opacity: 1, x: 0 } : {}}
     transition={{ duration: 0.6, delay: 0.3 }}
-    className="grid grid-cols-2 gap-4"
+    className="grid grid-cols-2 gap-4 "
   >
     {Highlights.map((item, index) => (
       <HighlightCard key={item.title} item={item} index={index} isInView={isInView} />

@@ -13,7 +13,7 @@ export const SectionHeader = ({ subtitle, title, highlight, description, classNa
       className={`text-center mb-16 ${className}`}
     >
       <span className="text-primary font-medium">{subtitle}</span>
-      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-2">
+      <h2 className="text-4xl md:text-5xl font-display font-bold mt-2">
         {title} {highlight && <span className="text-gradient">{highlight}</span>}
       </h2>
       {description && <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">{description}</p>}

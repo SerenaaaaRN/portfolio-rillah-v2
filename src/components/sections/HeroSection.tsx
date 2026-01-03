@@ -104,7 +104,7 @@ const PhotoGrid = () => (
     transition={{ duration: 0.8, delay: 0.3 }}
     className="flex-1 w-full max-w-[320px] sm:max-w-md lg:max-w-xl order-1 lg:order-2"
   >
-    <div className="grid grid-cols-2 gap-4 md:gap-5">
+    <div className="grid grid-cols-2 gap-4 md:gap-5 mt-6 md:mt-0">
       {/* Left Column */}
       <div className="flex flex-col gap-4 md:gap-5">
         {photoGridData.left.map((item, i) => (
